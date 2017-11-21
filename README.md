@@ -1,5 +1,5 @@
 # ToadList
-NodeJS-based visually appealing Todo list implementation
+NodeJS-based visually appealing Firebase Todo list implementation
 
 ## To setup:
 Go to the main directory and type `npm install`
