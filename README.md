@@ -8,3 +8,8 @@ Go to the main directory and type `npm install`
 ## To run:
 Go to the main directory and type `node app.js`<br/>
 The app can now be found at `localhost:7000`
+
+## Behind the app:
+The app was originally made because I have been wanted to create a web app using Firebase for some time now and I thought that the event-driven nature of a Todo List application would be a good fit.<br/>
+<br/>
+For more information regarding why I chose to go with NodeJS spesifically, see <a href = "https://stackoverflow.com/a/5062670" target = "_blank">this</a> StackOverflow post. In summarry, the app will require multiple concurrent connections and this is where NodeJS is especially powerful since "the server has no need of maintaining separate threads for each open connection".
