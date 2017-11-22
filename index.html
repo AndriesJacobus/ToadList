@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- Meta and base -->
+        <base href="/" />
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Title -->
+        <title>ToadList</title>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+        <!-- w3 and font awesome css -->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- Custom Font -->
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="vendor/materialize/css/materialize.min.css">
+
+        <!-- ToadList css -->
+        <link rel="stylesheet" href="css/toad.css">
+
+        <!-- ToadList js -->
+        <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+        <script type="text/javascript" src="js/toad.js"></script>
+        <script type="text/javascript" src="js/firebaseHandler.js"></script>
+
+    </head>
+    <body style = "font-family: 'Raleway', sans-serif;">
+
+        <!-- Navbar -->
+        <ul id="slide-out" class="side-nav">
+            <li>
+                <h5 style = "margin-left: 15px; font-family: 'Raleway', sans-serif;">Your Toad Lists:</h5>
+            </li>
+            <!--
+            <li>
+                <a class="waves-effect hoverable" href="#!">First Link</a>
+                <div class="divider"></div>
+            </li>
+            <li>
+                <a class="waves-effect hoverable" href="#!">Second Link</a>
+                <div class="divider"></div>
+            </li>
+            <li>
+                <a class="waves-effect hoverable" href="#!">Third Link</a>
+                <div class="divider"></div>
+            </li>
+        -->
+        </ul>
+
+        <div class="fixed-action-btn horizontal">
+            <a id = "menuBtn" href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large waves-effect waves-light light-green darken-2"><i class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="View your Toad Lists">menu</i></a>
+        </div>
+
+        <!--<a id="toadBtn" class="waves-effect waves-light btn z-depth-4 light-green darken-2">button</a>-->
+
+        <br/>
+
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <h5 style = "font-family: 'Raleway', sans-serif;">ToadList: Todo done well</h5>
+            </div>
+        </div>
+
+        <div class="fixed-action-btn horizontal">
+            <a class="btn-floating btn-large waves-effect waves-light z-depth-4 light-green darken-2">
+                <i class="large material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Edit your Toad Lists">mode_edit</i>
+            </a>
+            <ul>
+                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons">insert_chart</i></a></li>
+                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons">publish</i></a></li>
+                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 blue"><i class="material-icons">attach_file</i></a></li>
+            </ul>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card hoverable z-depth-3">
+                    <div class="card-image">
+                        <img class = "bannerImage" src="http://materializecss.com/images/sample-1.jpg"/>
+                        <span class="card-title">Start-off List</span>
+                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card hoverable z-depth-3">
+                    <div class="card-image">
+                        <img class = "bannerImage" src="http://materializecss.com/images/sample-1.jpg"/>
+                        <span class="card-title">List One</span>
+                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card hoverable z-depth-3">
+                    <div class="card-image">
+                        <img class = "bannerImage" src="http://materializecss.com/images/sample-1.jpg"/>
+                        <span class="card-title">List One</span>
+                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ToadList js -->
+        <link type="text/javascript" src="js/toad.js">
+
+        <!--Import jQuery before materialize.js-->
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="vendor/materialize/js/materialize.min.js"></script>
+    </body>
+</html>

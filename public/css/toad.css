@@ -1,0 +1,23 @@
+/*
+Color scheme:
+_____________
+
+Light: 	lime darken-4
+Dark: teal darken-3
+
+*/
+
+html {
+	font-family: 'Raleway', sans-serif;
+}
+
+.bannerImage {
+	height: 50vh;
+	width: auto;
+}
+
+#menuBtn {
+	display: flex;
+	position: relative;
+	left: -90vw;
+}
