@@ -1,10 +1,8 @@
-
 /*
-=================================================================================================
- Initialize Firebase:
-=================================================================================================
+    Author: Jaco du Plooy
 */
 
+// Initialize Firebase:
 var config = {
     apiKey: "AIzaSyDVU2n4xCxj6hILQMKfyVkDJfuy3bVahj4",
     authDomain: "toadlist.firebaseapp.com",
@@ -15,94 +13,108 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// Getting 
+// Setup default accounts
+var defaultAuth = firebase.auth();
 var defaultDatabase = firebase.database();
-var commentsRef = defaultDatabase.ref('ToadLists/');
 
-// Handle db object
-commentsRef.on('child_added', function(data) {
-	addToadList(data.key, data.val().name);
-});
+// Setup authentification
+init();		//Calls authHandler's setup function
 
-commentsRef.on('child_changed', function(data) {
-	updateToadList(data.key, data.val().name);
-});
+// Declare database reference objects
+var userRef, listsRef, itemRef, contentRef;
 
-commentsRef.on('child_removed', function(data) {
-	//deleteComment(postElement, data.key);
-});
+// Called when a user is logged in or out. Either stops or starts event listeners
+function startStopDataTransference (start) {
+	if (!start) {
+		// Request is to stop data transference
+		userRef = null;
+		listsRef = null;
+		itemRef = null;
+		contentRef = null;
+	}
+	else
+	{
+		if (isCurrentUserSignedIn()) {
+			//Say hello
+			//alert("Hello " + email + "! Welcome to your ToadList!");
 
-/*
-=================================================================================================
- Objects handler:
-=================================================================================================
-*/
-var toadLists = [];
+			$('#signInModal').modal('close');
+			$('#signUpModal').modal('close');
 
-function addToadList (id, name) {
-	// Add to list
-	toadLists.push(new ToadList(id, name));
+			$("#showbox").animate({
+	            opacity: 1.0,
+	            }, 1000
+	        );
 
-	// Add to view
-	var add = 	"<li id = '" + id + "'>";
-    add +=		"<a class='waves-effect hoverable' href='#!'>" + name + "</a>"
-    add +=      "<div class='divider'></div>"
-    add +=      "</li>";
+			// Getting  References
+			userRef = defaultDatabase.ref('users/');
 
-	$("#slide-out").append(add);
-}
+				// Handle User objects
+				userRef.on('child_added', function(data) {
+					if (data.key == uid) {
+						//Our user was found
+						name = data.val().name;
+						alert("Your name is: " + name);
+					}
+				});
 
-function updateToadList (id, name) {
-	// Update view
-	$("#" + id + "").append(add);
+				userRef.on('child_changed', function(data) {
+					if (data.key == uid) {
+						//Our user was updated
+						name = data.val().name;
+					}
+				});
 
-	//Update list
-	for (var list in toadLists) {
-		if (list.id == id) {
-			list.name = name;
+				userRef.on('child_removed', function(data) {
+					// Users removed
+					alert("Sorry, your account has been suspended.\nPlease contact us for more information.");
+					cusSignOut();			//Calls authHandler's sign out function
+				});
+
+			listsRef = defaultDatabase.ref('ToadLists/');
+
+				// Handle List objects
+				listsRef.on('child_added', function(data) {
+					addToadList(data.key, data.val().name);				//Calls authHandler's function
+				});
+
+				listsRef.on('child_changed', function(data) {
+					updateToadList(data.key, data.val().name);			//Calls authHandler's function
+				});
+
+				listsRef.on('child_removed', function(data) {
+					deleteList(data.key);
+				});
+
+			itemRef = defaultDatabase.ref('Items/');
+
+				// Handle Item objects
+				itemRef.on('child_added', function(data) {
+					// Getting all original users 
+				});
+
+				itemRef.on('child_changed', function(data) {
+					// Update users
+				});
+
+				itemRef.on('child_removed', function(data) {
+					// Users removed
+				});
+
+			contentRef = defaultDatabase.ref('content/');
+
+				// Handle Content objects
+				contentRef.on('child_added', function(data) {
+					// Getting all original users 
+				});
+
+				contentRef.on('child_changed', function(data) {
+					// Update users
+				});
+
+				contentRef.on('child_removed', function(data) {
+					// Users removed
+				});
 		}
-	}
-}
-
-/*
-=================================================================================================
- Stored objects:
-=================================================================================================
-*/
-
-// List Obj:
-class ToadList {
-	constructor(id, name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	equals(compare) {
-		return (this.id == compare.id);
-	}
-}
-
-// Item Content Obj:
-class Item {
-	constructor(id, message) {
-		this.id = id;
-		this.message = message;
-	}
-
-	equals(compare) {
-		return (this.id == compare.id);
-	}
-}
-
-// Item Obj:
-class ItemContent {
-	constructor(id, contentId, listId) {
-		this.id = id;
-		this.contentId = contentId;
-		this.listId = listId;
-	}
-
-	equals(compare) {
-		return (this.id == compare.id);
 	}
 }

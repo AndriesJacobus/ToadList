@@ -1,4 +1,8 @@
 /*
+    Author: Jaco du Plooy
+*/
+
+/*
 Color scheme:
 _____________
 
@@ -9,6 +13,18 @@ Dark: teal darken-3
 
 html {
 	font-family: 'Raleway', sans-serif;
+}
+
+#signInModal {
+	width: 25vw;
+}
+
+#signUpModal {
+	width: 25vw;
+}
+
+#showbox {
+	opacity: 0.0;
 }
 
 .bannerImage {

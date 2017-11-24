@@ -1,6 +1,89 @@
-/* Some code to facilitate element behaviour */
+/*
+    Author: Jaco du Plooy
+*/
 
 $( document ).ready(function() {
+    /*
+    =================================================================================================
+     Handle sign-in behaviour:
+    =================================================================================================
+    */
+
+    $('#signInModal').modal({
+            dismissible: false, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0.5, // Opacity of modal background
+            inDuration: 100, // Transition in duration
+            outDuration: 250, // Transition out duration
+            startingTop: '4%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+
+            ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+                console.log(modal, trigger);
+            },
+            complete: function() {
+            } // Callback for Modal close
+        }
+    );
+
+    $('#signUpModal').modal({
+            dismissible: false, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0.5, // Opacity of modal background
+            inDuration: 100, // Transition in duration
+            outDuration: 250, // Transition out duration
+            startingTop: '4%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+
+            ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+                console.log(modal, trigger);
+            },
+            complete: function() {
+            } // Callback for Modal close
+        }
+    );
+
+    //Materialize.updateTextFields();
+    if (isCurrentUserSignedIn()) {
+        $("#showbox").animate({
+            opacity: 1.0,
+            }, 1000
+        );
+    }
+    else {
+        $('#signInModal').modal('open');
+    }
+
+    // Sign In button click listener 
+    $('#signInButton').click(function () {
+        // Handle sign in
+        cusSignIn($('#email1').val(), $('#password1').val());        //call authHandler's function
+    });
+
+    // Sign Up button click listener
+    $('#signUpButton').click(function () {
+        // Handle sign in
+        alert("Name: " + $('#name').val());
+        cusCreateUser($('#email2').val(), $('#password2').val(), $('#name').val());        //call authHandler's function
+    });
+
+    // Sign Up button link listener
+    $('#signUpButtonLink').click(function () {
+        // Handle sign up
+        $('#signInModal').modal('close');
+        $('#signUpModal').modal('open');
+    });
+
+    // Sign In button link listener
+    $('#signInButtonLink').click(function () {
+        // Handle sign up
+        $('#signUpModal').modal('close');
+        $('#signInModal').modal('open');
+    });
+
+    /*
+    =================================================================================================
+     Handle some display behaviour:
+    =================================================================================================
+    */
 
     var width = $( document ).width() - 100;
     $("#menuBtn").css("left", -width);
@@ -65,5 +148,4 @@ $( document ).ready(function() {
         }
 
     });
-
 });
