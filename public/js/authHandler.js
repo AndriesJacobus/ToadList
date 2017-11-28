@@ -2,7 +2,7 @@
     Author: Jaco du Plooy
 */
 
-// Declare checking vars:
+// Declare user vars:
 var user, email, uid, name;
 
 // Init the auth vars:

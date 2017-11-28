@@ -169,41 +169,15 @@
 	                <div class="card hoverable z-depth-3">
 	                    <div class="card-image">
 	                        <img class="bannerImage" src="http://materializecss.com/images/sample-1.jpg" />
-	                        <span class="card-title">Start-off List</span>
+	                        <span id = "listBannerName" class="card-title">Start-off List</span>
 	                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
 	                    </div>
 	                    <div class="card-content">
-	                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-
-	        <div class="row">
-	            <div class="col s12 m6 offset-m3">
-	                <div class="card hoverable z-depth-3">
-	                    <div class="card-image">
-	                        <img class="bannerImage" src="http://materializecss.com/images/sample-1.jpg" />
-	                        <span class="card-title">List One</span>
-	                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
-	                    </div>
-	                    <div class="card-content">
-	                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-
-	        <div class="row">
-	            <div class="col s12 m6 offset-m3">
-	                <div class="card hoverable z-depth-3">
-	                    <div class="card-image">
-	                        <img class="bannerImage" src="http://materializecss.com/images/sample-1.jpg" />
-	                        <span class="card-title">List One</span>
-	                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
-	                    </div>
-	                    <div class="card-content">
-	                        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+	                        <p id = "normalItemGreeting" style = "display: none; opacity: 0.0">Your ToadList Items:</p>
+	                        <p id = "noItemsYet" style = "display: none; opacity: 0.0">It seems you have no ToadList Items. Please click the <i class="material-icons">add</i> button to add new items.</p>
+                        	
+	                        <div id = "listItemContent">
+	                        </div>
 	                    </div>
 	                </div>
 	            </div>

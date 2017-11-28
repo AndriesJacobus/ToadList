@@ -35,12 +35,12 @@ function startStopDataTransference (start) {
 	else
 	{
 		if (isCurrentUserSignedIn()) {
-			//Say hello
-			//alert("Hello " + email + "! Welcome to your ToadList!");
+			//alert("Hello " + email + "! Welcome to your ToadList!");		//Say hello
 
 			$('#signInModal').modal('close');
 			$('#signUpModal').modal('close');
 
+       		// Animate page fade in
 			$("#showbox").animate({
 	            opacity: 1.0,
 	            }, 1000
@@ -54,7 +54,7 @@ function startStopDataTransference (start) {
 					if (data.key == uid) {
 						//Our user was found
 						name = data.val().name;
-						alert("Your name is: " + name);
+						//alert("Your name is: " + name);
 					}
 				});
 
@@ -75,22 +75,32 @@ function startStopDataTransference (start) {
 
 				// Handle List objects
 				listsRef.on('child_added', function(data) {
-					addToadList(data.key, data.val().name);				//Calls authHandler's function
+					if (data.val().owner == uid) {
+						// List for our user
+						addToadList(data.key, data.val().name);				//Calls authHandler's function
+					}
 				});
 
 				listsRef.on('child_changed', function(data) {
-					updateToadList(data.key, data.val().name);			//Calls authHandler's function
+					if (data.val().owner == uid) {
+						// List for our user
+						updateToadList(data.key, data.val().name);			//Calls authHandler's function
+					}
 				});
 
 				listsRef.on('child_removed', function(data) {
-					deleteList(data.key);
+					if (data.val().owner == uid) {
+						// List for our user
+						deleteList(data.key);			//Calls authHandler's function
+					}
 				});
 
 			itemRef = defaultDatabase.ref('Items/');
 
 				// Handle Item objects
 				itemRef.on('child_added', function(data) {
-					// Getting all original users 
+					// Getting all original users
+					addToItemsIfOwner(data.key, data.val().list, data.val().contentId);
 				});
 
 				itemRef.on('child_changed', function(data) {
@@ -104,6 +114,8 @@ function startStopDataTransference (start) {
 			contentRef = defaultDatabase.ref('content/');
 
 				// Handle Content objects
+
+				// Probably not needed, done implicitly via addItem()
 				contentRef.on('child_added', function(data) {
 					// Getting all original users 
 				});
@@ -112,6 +124,7 @@ function startStopDataTransference (start) {
 					// Update users
 				});
 
+				// Again: Probably not needed, done implicitly via addItem()
 				contentRef.on('child_removed', function(data) {
 					// Users removed
 				});
