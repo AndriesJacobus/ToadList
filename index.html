@@ -114,6 +114,29 @@
 	        </div>
 	    </div>
 
+	    <!-- Add Item Modal Structure -->
+	    <div id="addItemModal" class="modal">
+	        <div class="modal-content">
+	            <h4>Add Item</h4>
+	            <hr/>
+	            <br/>
+	            <div class="row">
+	                <form class="col s12">
+	                    <div class="row">
+	                        <div class="input-field col s12">
+	                            <input id="itemMessage" type="text" class="validate">
+	                            <label for="itemMessage">What do you want to remember or get done?</label>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	        <div class="modal-footer">
+	            <a id = "addItemButton" class="modal-action waves-effect waves-teal btn-flat">Add Item</a>
+	            <a id = "cancl" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+	        </div>
+	    </div>
+
 	    <!-- REST OF CODE -->
 
 	    <div id="showbox">
@@ -170,7 +193,7 @@
 	                    <div class="card-image">
 	                        <img class="bannerImage" src="http://materializecss.com/images/sample-1.jpg" />
 	                        <span id = "listBannerName" class="card-title">Start-off List</span>
-	                        <a class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
+	                        <a id = "addItemFloatButton" class="btn-floating halfway-fab waves-effect waves-light z-depth-4 light-green darken-2"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Add an item to your Toad List">add</i></a>
 	                    </div>
 	                    <div class="card-content">
 	                        <p id = "normalItemGreeting" style = "display: none; opacity: 0.0">Your ToadList Items:</p>
