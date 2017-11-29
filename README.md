@@ -6,7 +6,7 @@ NodeJS-based visually appealing Firebase Todo list implementation using the Mate
 Go to the main directory and type `npm install`
 
 ## To run:
-Go to the main directory and type `node app.js`<br/>
+Go to the main directory and type `npm start` or `node server.js`<br/>
 The app can now be found at `localhost:7000`<br/>
 <br/>
 <i>Note: to gain access to the system you are required to register an account</i>
