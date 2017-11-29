@@ -68,7 +68,7 @@ function startStopDataTransference (start) {
 				userRef.on('child_removed', function(data) {
 					// Users removed
 					alert("Sorry, your account has been suspended.\nPlease contact us for more information.");
-					cusSignOut();			//Calls authHandler's sign out function
+					cusSignOut();																//Calls authHandler's sign out function
 				});
 
 			listsRef = defaultDatabase.ref('ToadLists/');
@@ -77,21 +77,21 @@ function startStopDataTransference (start) {
 				listsRef.on('child_added', function(data) {
 					if (data.val().owner == uid) {
 						// List for our user
-						addToadList(data.key, data.val().name);				//Calls authHandler's function
+						addToadList(data.key, data.val().name);									//Calls objectHandler's function
 					}
 				});
 
 				listsRef.on('child_changed', function(data) {
 					if (data.val().owner == uid) {
 						// List for our user
-						updateToadList(data.key, data.val().name);			//Calls authHandler's function
+						updateToadList(data.key, data.val().name);								//Calls objectHandler's function
 					}
 				});
 
 				listsRef.on('child_removed', function(data) {
 					if (data.val().owner == uid) {
 						// List for our user
-						deleteList(data.key);			//Calls authHandler's function
+						removeList(data.key);													//Calls objectHandler's function
 					}
 				});
 
@@ -100,15 +100,17 @@ function startStopDataTransference (start) {
 				// Handle Item objects
 				itemRef.on('child_added', function(data) {
 					// Getting all original users
-					addToItemsIfOwner(data.key, data.val().list, data.val().contentId);
+					addToItemsIfOwner(data.key, data.val().list, data.val().contentId);			//Calls objectHandler's function
 				});
 
 				itemRef.on('child_changed', function(data) {
 					// Update users
+					updateItem(data.key, data.val().list, data.val().contentId);				//Calls objectHandler's function
 				});
 
 				itemRef.on('child_removed', function(data) {
 					// Users removed
+					removeItem(data.key);														//Calls objectHandler's function
 				});
 
 			contentRef = defaultDatabase.ref('content/');
@@ -122,6 +124,7 @@ function startStopDataTransference (start) {
 
 				contentRef.on('child_changed', function(data) {
 					// Update users
+					updateItemContent(data.key, data.val());												//Calls objectHandler's function
 				});
 
 				// Again: Probably not needed, done implicitly via addItem()
