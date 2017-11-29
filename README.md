@@ -1,5 +1,5 @@
 # ToadList
-NodeJS-based visually appealing Firebase Todo list implementation<br/>
+NodeJS-based visually appealing Firebase Todo list implementation using the Material Design UX approach<br/>
 <i><b>Note:</b> This app is still under development.</i>
 
 ## To setup:
