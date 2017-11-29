@@ -63,6 +63,28 @@ $( document ).ready(function() {
         $('#addItemModal').modal('open');
     });
 
+    // Add item
+    $('#addItemButton').click(function () {
+        // Check to see if the item box has content
+        var content = $('#itemMessage').val();
+
+        alert("Content: " + content);
+
+        if (content == "") {
+            alert("Sorry, the message body cannot be empty.");
+        }
+        else {
+            // Update backend
+            addItemToDatabase(content);
+
+            // Reset modal body
+            $('#itemMessage').val("");
+
+            // Close modal
+            $('#addItemModal').modal('close');
+        }
+    });
+
     //Materialize.updateTextFields();
     if (isCurrentUserSignedIn()) {
         $("#showbox").animate({

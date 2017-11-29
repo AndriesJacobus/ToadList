@@ -180,16 +180,26 @@
 	                <i class="large material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Edit your Toad Lists">mode_edit</i>
 	            </a>
 	            <ul>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons">insert_chart</i></a></li>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons">publish</i></a></li>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 blue"><i class="material-icons">attach_file</i></a></li>
+	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Delete Current Toad List">delete</i></a></li>
+	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Rename Current Toad List">format_quote</i></a></li>
+	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Create New Toad List">publish</i></a></li>
 	            </ul>
 	        </div>
 
-	        <div class="row">
+	        <div id = "noListMessage" class="row" style = "display: none; opacity: 1.0">
 	            <div class="col s12 m6 offset-m3">
 	                <div class="card hoverable z-depth-3">
+	                    <div class="card-content">
+	                        <p>You have no lists at the moment.<br/>Please add a list by clicking the <i class="large material-icons">mode_edit</i> button in the bottom right corner.</p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+
+	        <!--<div id = "listViewCard" class="row" style = "display: none; opacity: 0.0">-->
+	        <div id = "listViewCard" class="row">
+	            <div class="col s12 m6 offset-m3">
+	                <div id = "mainListView" class="card hoverable z-depth-3">
 	                    <div class="card-image">
 	                        <img class="bannerImage" src="http://materializecss.com/images/sample-1.jpg" />
 	                        <span id = "listBannerName" class="card-title">Start-off List</span>
@@ -197,7 +207,7 @@
 	                    </div>
 	                    <div class="card-content">
 	                        <p id = "normalItemGreeting" style = "display: none; opacity: 0.0">Your ToadList Items:</p>
-	                        <p id = "noItemsYet" style = "display: none; opacity: 0.0">It seems you have no ToadList Items. Please click the <i class="material-icons">add</i> button to add new items.</p>
+	                        <p id = "noItemsYet" style = "display: block; opacity: 1.0">It seems you have no ToadList Items. Please click the <i class="material-icons">add</i> button to add new items.</p>
                         	
 	                        <div id = "listItemContent">
 	                        </div>

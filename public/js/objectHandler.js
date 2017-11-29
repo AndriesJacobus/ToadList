@@ -14,10 +14,7 @@ function changeCurrentListTo(id) {
 	currentListOpen = id;
 
 	// Update items shown
-	hideAllItems(id);
-
-	// Update items shown
-	showItemsInList(id);
+	hideList(id);
 }
 
 function addToadList (id, name) {
@@ -30,13 +27,21 @@ function addToadList (id, name) {
 
 	toadLists.push(new ToadList(id, name));
 
+	var idText = "" + id + "";
+
 	// Add to view
 	var add = 	"<li id = '" + id + "'>";
-    add +=		"<a id = 'listName' class='waves-effect hoverable' href='#!'>" + name + "</a>"
+    add +=		"<a id = 'listName' class='waves-effect hoverable' onclick='showList(" + idText + ")'>" + name + "</a>"
     add +=      "<div class='divider'></div>"
     add +=      "</li>";
 
 	$("#slide-out").append(add);
+}
+
+function showList(listId) {
+	if (currentListOpen != listId.id) {
+		changeCurrentListTo(listId.id);
+	}
 }
 
 function updateToadList (id, name) {
@@ -138,14 +143,14 @@ function addItem (id, list, contentId) {
 	items.push(new Item(id, contentId, list));
 
 	// Get item content and add to list of content if the current list is correct
-	if (currentListOpen == list) {
-		contentRef.child(contentId).once("value", function(snapshot){
+    contentRef.child(contentId).once("value", function(snapshot){
 
-		    //alert("Item content: " + snapshot.val());
-		    itemContents.push(new ItemContent(contentId, snapshot.val()));
+	    //alert("Item content: " + snapshot.val());
+	    itemContents.push(new ItemContent(contentId, snapshot.val()));
 
-			// Add item with message to view
-		    var add = 	"<div id = '" + id + "'>"
+		// Add item with message to view
+		if (currentListOpen == list) {
+			var add = 	"<div id = '" + id + "'>"
 		    add +=			"<br/>"
 		    add +=			"<p>"
 			add +=				"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;'>"
@@ -156,11 +161,10 @@ function addItem (id, list, contentId) {
 		    add +=		"</div>"
 
 			$("#listItemContent").append(add);
-
-		}, function (errorObject) {
-	    	console.log("the read failed: " + errorObject.code); 
-		});
-    }
+    	}
+	}, function (errorObject) {
+    	console.log("the read failed: " + errorObject.code); 
+	});
 }
 
 function updateItem (itemId, listId, contentId) {
@@ -270,11 +274,12 @@ function removeItem (itemId) {
 function removeItemFromView (itemId) {
 	// Remove from view
 	$("#" + itemId + "").remove();
-	var currIitemContentId = null;
 }
 
 function addContentToView(itemId, contentId, message) {
 	// Add item with message to view
+	//alert("HERE: " + itemId + ", " + contentId + ", " +  message);
+
     var add = 	"<div id = '" + itemId + "'>"
     add +=			"<br/>"
     add +=			"<p>"
@@ -292,12 +297,95 @@ function deleteItem (itemId) {
 	// Delete from database
 }
 
-function hideAllItems(id) {
-	// Todo
+function hideList(id) {
+	// Hide current list being shown
+
+	// Hide old view
+	$("#mainListView").animate({
+        opacity: 0.0,
+        }, 250
+        , function () {
+        	/* Update view */
+
+		    // Remove old content
+			for (var i = 0; i < items.length; i++) {
+				var tempItem = items[i];
+
+				if (tempItem.list != currentListOpen) {
+					//alert("Calling remove for " + tempItem.id);
+					removeItemFromView(tempItem.id);
+				}
+			}
+
+		    // Get list obj
+		    var currList = null;
+		    for (var i = 0; i < toadLists.length; i++) {
+				var list = toadLists[i];
+
+				if (list.id == currentListOpen) {
+					currList = list;
+		    		break;
+				}
+			}
+
+			if (currList != null) {
+				// Update name
+		    	$("#listBannerName").html(currList.name);
+
+		    	// Get items and add item content to view
+		    	for (var i = 0; i < items.length; i++) {
+					var item = items[i];
+
+					//alert("Item: " + item.id + ", " + item.list + ", " + item.contentId)
+					if (item.list == currentListOpen) {
+						// Find content message
+						var contentMessage = null;
+
+						for (var i = 0; i < itemContents.length; i++) {
+							var itemContent = itemContents[i];
+							//alert("ItemContent: " + itemContent.id + ", " + itemContent.message);
+
+							if (itemContent.id == item.contentId) {
+								// Found item content
+								//alert("Inside: " + itemContent.message);
+					    		contentMessage = itemContent.message;
+					    		break;
+							}
+						}
+
+						// Add item to view
+						if (contentMessage != null) {
+							addContentToView(item.id, item.contentId, contentMessage);
+						}
+
+			    		//break;		// Don't break, rather continue
+					}
+				}
+			}
+
+			// Show updated view
+			$("#mainListView").animate({
+		        opacity: 1.0,
+		        }, 500
+		    );
+        }
+    );
 }
 
-function showItemsInList(id) {
-	// Todo
+function addItemToDatabase(contentMessage) {
+	/* First add new content */
+	var newItemContentRef = contentRef.push(contentMessage);
+	//newItemContentRef.set(contentMessage);
+
+	// Get contentId
+	var currContentId = newItemContentRef.key;
+
+	/* Create new Item for Item Content */
+	var newItemRef = itemRef.push({
+		contentId: "" + currContentId + "",
+		list: "" + currentListOpen + ""
+	});
+	//newItemRef.set(contentMessage);
 }
 
 /*
