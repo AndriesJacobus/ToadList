@@ -136,6 +136,29 @@
 	        </div>
 	    </div>
 
+	    <!-- Add Item Modal Structure -->
+	    <div id="createToadListModal" class="modal">
+	        <div class="modal-content">
+	            <h4>Create ToadList</h4>
+	            <hr/>
+	            <br/>
+	            <div class="row">
+	                <form class="col s12">
+	                    <div class="row">
+	                        <div class="input-field col s12">
+	                            <input id="toadListName" type="text" class="validate">
+	                            <label for="toadListName">New ToadList Name</label>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	        <div class="modal-footer">
+	            <a id = "createNewToadListButton" class="modal-action waves-effect waves-teal btn-flat">Create ToadList</a>
+	            <a id = "canclTL" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+	        </div>
+	    </div>
+
 	    <!-- REST OF CODE -->
 
 	    <div id="showbox">
@@ -181,7 +204,7 @@
 	            <ul>
 	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Delete Current Toad List">delete</i></a></li>
 	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Rename Current Toad List">format_quote</i></a></li>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Create New Toad List">publish</i></a></li>
+	                <li><a id = "publishBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Create New Toad List">publish</i></a></li>
 	            </ul>
 	        </div>
 

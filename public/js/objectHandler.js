@@ -27,11 +27,12 @@ function addToadList (id, name) {
 
 	toadLists.push(new ToadList(id, name));
 
-	var idText = "" + id + "";
+	var idText = String('"' + "showList('" + String(id) + "')" + '"');
+	//var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', true)" + '"');
 
 	// Add to view
 	var add = 	"<li id = '" + id + "'>";
-    add +=		"<a id = 'listName' class='waves-effect hoverable' onclick='showList(" + idText + ")'>" + name + "</a>"
+    add +=		"<a id = 'listName' class='waves-effect hoverable' onclick = " + idText + ">" + name + "</a>"
     add +=      "<div class='divider'></div>"
     add +=      "</li>";
 
@@ -39,8 +40,9 @@ function addToadList (id, name) {
 }
 
 function showList(listId) {
-	if (currentListOpen != listId.id) {
-		changeCurrentListTo(listId.id);
+	//alert("Here: " + listId);
+	if (currentListOpen != listId) {
+		changeCurrentListTo(listId);
 	}
 }
 
@@ -88,6 +90,33 @@ function removeList (id) {
 	}
 }
 
+function addNewToadListToDatabase (_name) {
+	/* Get Date */
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+
+	if(dd < 10){
+	    dd = '0' + dd;
+	} 
+	if(mm < 10){
+	    mm = '0' + mm;
+	}
+
+	var today = dd+'/'+mm+'/'+yyyy;
+
+	/* Create new List */
+	var newListRef = listsRef.push({
+		dateCreated: "" + today + "",
+		name: "" + _name + "",
+		owner: "" + uid + ""
+	});
+
+	Materialize.toast("List Created: " + _name, 2000, 'rounded');
+}
+
 function deleteList (id) {
 	// Delete list from database
 }
@@ -124,7 +153,7 @@ function addItem (id, list, contentId) {
 	// Add to items
 
 	// Show right message
-    if (items.length == 0) {
+    if ($("#noItemsYet").css("display") == "block" && list == currentListOpen) {
         // First time adding item. Hide old message:
         $("#noItemsYet").animate({
             opacity: 0.0,
@@ -381,6 +410,8 @@ function hideList(id) {
         , function () {
         	/* Update view */
 
+        	var currListHasItems = false;
+
 		    // Remove old content
 			for (var i = 0; i < items.length; i++) {
 				var tempItem = items[i];
@@ -389,6 +420,46 @@ function hideList(id) {
 					//alert("Calling remove for " + tempItem.id);
 					removeItemFromView(tempItem.id);
 				}
+				else if (!currListHasItems) {
+					currListHasItems = true;
+				}
+			}
+
+			// Show proper message
+			if (currListHasItems) {
+			    if ($("#noItemsYet").css("display") == "block") {
+
+			        $("#noItemsYet").animate({
+			            opacity: 0.0,
+			            }, 10
+			        );
+			        $("#noItemsYet").css("display", "none");
+
+			        // Show new message
+			        $("#normalItemGreeting").css("display", "block");
+			        $("#normalItemGreeting").animate({
+			            opacity: 1.0,
+			            }, 10
+			        );
+			    }
+			}
+			else {
+
+			    if ($("#normalItemGreeting").css("display") == "block") {
+
+			        $("#normalItemGreeting").animate({
+			            opacity: 0.0,
+			            }, 10
+			        );
+			        $("#normalItemGreeting").css("display", "none");
+
+			        // Show new message
+			        $("#noItemsYet").css("display", "block");
+			        $("#noItemsYet").animate({
+			            opacity: 1.0,
+			            }, 10
+			        );
+			    }
 			}
 
 		    // Get list obj
@@ -412,6 +483,7 @@ function hideList(id) {
 
 					//alert("Item: " + item.id + ", " + item.list + ", " + item.contentId)
 					if (item.list == currentListOpen) {
+
 						// Find content message
 						var contentMessage = null;
 

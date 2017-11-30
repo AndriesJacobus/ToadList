@@ -57,6 +57,28 @@ $( document ).ready(function() {
         }
     );
 
+    $('#createToadListModal').modal({
+            dismissible: false, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0.5, // Opacity of modal background
+            inDuration: 100, // Transition in duration
+            outDuration: 250, // Transition out duration
+            startingTop: '4%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+
+            ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+                console.log(modal, trigger);
+            },
+            complete: function() {
+            } // Callback for Modal close
+        }
+    );
+
+    // Create list button link listener
+    $('#publishBtn').click(function () {
+        // Show Modal
+        $('#createToadListModal').modal('open');
+    });
+
     // Sign Up button link listener
     $('#addItemFloatButton').click(function () {
         // Show Add Item Modal
@@ -82,6 +104,28 @@ $( document ).ready(function() {
 
             // Close modal
             $('#addItemModal').modal('close');
+        }
+    });
+
+    // Create toad list
+    $('#createNewToadListButton').click(function () {
+        // Check to see if the item box has content
+        var content = $('#toadListName').val();
+
+        //alert("Content: " + content);
+
+        if (content == "") {
+            alert("Sorry, the list name cannot be empty.");
+        }
+        else {
+            // Update backend
+            addNewToadListToDatabase(content);
+
+            // Reset modal body
+            $('#toadListName').val("");
+
+            // Close modal
+            $('#createToadListModal').modal('close');
         }
     });
 
