@@ -68,7 +68,7 @@ $( document ).ready(function() {
         // Check to see if the item box has content
         var content = $('#itemMessage').val();
 
-        alert("Content: " + content);
+        //alert("Content: " + content);
 
         if (content == "") {
             alert("Sorry, the message body cannot be empty.");
@@ -95,13 +95,6 @@ $( document ).ready(function() {
     else {
         $('#signInModal').modal('open');
     }
-
-    // Add item
-    $("#addItem").click(function () {
-        // Handle sign in
-        cusSignIn($('#email1').val(), $('#password1').val());        //call authHandler's function
-    });
-
 
     // Sign In button click listener 
     $('#signInButton').click(function () {

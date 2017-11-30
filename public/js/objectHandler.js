@@ -100,7 +100,7 @@ function deleteList (id) {
 var items = [];
 
 function addToItemsIfOwner(itemId, listId, contentId) {
-
+	//alert("Here 2: " + itemId + ", " + listId + ", " + contentId);
 	getListOwner (itemId, listId, contentId);
 }
 
@@ -150,17 +150,39 @@ function addItem (id, list, contentId) {
 
 		// Add item with message to view
 		if (currentListOpen == list) {
-			var add = 	"<div id = '" + id + "'>"
-		    add +=			"<br/>"
-		    add +=			"<p>"
-			add +=				"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;'>"
-		    add +=					"<input id='" + contentId + "in' type='checkbox'/>"
-			add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + snapshot.val() + "</label>"
-		    add +=				"</a>"
-			add +=			"</p>"
-		    add +=		"</div>"
 
-			$("#listItemContent").append(add);
+			//Get checked value
+			itemRef.child(id).once("value", function(itemRefData){
+
+				var checked = itemRefData.val().checked;
+				var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', true)" + '"');
+				var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', false)" + '"');
+
+				var add = 	"<div id = '" + id + "'>"
+			    add +=			"<br/>"
+			    add +=			"<p>"
+
+			    if (checked) {
+			    	// checked="checked"
+					add +=			"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;' onclick = " + clickFalse + ">"
+			    	add +=				"<input id='" + contentId + "in' type='checkbox' checked='checked'/>"
+			    }
+			    else
+			    {
+					add +=			"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;' onclick = " + clickTrue + ">"
+			    	add +=				"<input id='" + contentId + "in' type='checkbox'/>"
+			    }
+
+				add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + snapshot.val() + "</label>"
+			    add +=				"</a>"
+				add +=			"</p>"
+			    add +=		"</div>"
+
+				$("#listItemContent").append(add);
+			    
+			}, function (errorObject) {
+		    	console.log("the read failed: " + errorObject.code); 
+			});
     	}
 	}, function (errorObject) {
     	console.log("the read failed: " + errorObject.code); 
@@ -219,6 +241,30 @@ function updateItem (itemId, listId, contentId) {
 					else {
 						// Update existing content view
 				    	$("#" + contentId + "lbl").html(snapshot.val());
+
+						//Get checked value
+						itemRef.child(itemId).once("value", function(itemRefData){
+
+							var checked = itemRefData.val().checked;
+							var clickTrue = String("flipCheckedFor ('" + String(itemId) + "', true)");
+							var clickFalse = String("flipCheckedFor ('" + String(itemId) + "', false)");
+
+						    if (checked) {
+						    	$("#" + contentId + "in").prop('checked', true);
+
+						    	// Update onclick
+						    	$("#" + contentId + "in").parent().attr("onclick", "event.preventDefault(); " + clickFalse);
+						    }
+						    else {
+						    	$("#" + contentId + "in").prop('checked', false);
+
+						    	// Update onclick
+						    	$("#" + contentId + "in").parent().attr("onclick", "event.preventDefault(); " + clickTrue);
+						    }
+						    
+						}, function (errorObject) {
+					    	console.log("the read failed: " + errorObject.code); 
+						});
 					}
 
 				    // Update itemContent
@@ -280,17 +326,45 @@ function addContentToView(itemId, contentId, message) {
 	// Add item with message to view
 	//alert("HERE: " + itemId + ", " + contentId + ", " +  message);
 
-    var add = 	"<div id = '" + itemId + "'>"
-    add +=			"<br/>"
-    add +=			"<p>"
-	add +=				"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;'>"
-    add +=					"<input id='" + contentId + "in' type='checkbox'/>"
-	add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + message + "</label>"
-    add +=				"</a>"
-	add +=			"</p>"
-    add +=		"</div>"
+	//Get checked value
+	itemRef.child(itemId).once("value", function(itemRefData){
 
-	$("#listItemContent").append(add);
+		var checked = itemRefData.val().checked;
+		var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', true)" + '"');
+		var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', false)" + '"');
+
+	    var add = 	"<div id = '" + itemId + "'>"
+	    add +=			"<br/>"
+	    add +=			"<p>"
+
+	    if (checked) {
+	    	// checked="checked"
+			add +=			"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;' onclick = " + clickFalse + ">"
+	    	add +=				"<input id='" + contentId + "in' type='checkbox' checked='checked'/>"
+	    }
+	    else
+	    {
+			add +=			"<a id = 'checkItem' class='waves-effect hoverable' style = 'margin: 10px;' onclick = " + clickTrue + ">"
+	    	add +=				"<input id='" + contentId + "in' type='checkbox'/>"
+	    }
+
+		add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + message + "</label>"
+	    add +=				"</a>"
+		add +=			"</p>"
+	    add +=		"</div>"
+
+		$("#listItemContent").append(add);
+	    
+	}, function (errorObject) {
+    	console.log("the read failed: " + errorObject.code); 
+	});
+}
+
+function flipCheckedFor (itemId, newChecked) {
+	var itemToUpdate = itemRef.child(itemId);
+	itemToUpdate.update({
+	  "checked": newChecked
+	});
 }
 
 function deleteItem (itemId) {
