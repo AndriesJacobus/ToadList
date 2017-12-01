@@ -173,6 +173,11 @@ $( document ).ready(function() {
         }
     });
 
+    // Rename toad list
+    $('#deleteLstBtn').click(function () {
+        deleteList(currentListOpen);
+    });
+
     //Materialize.updateTextFields();
     if (isCurrentUserSignedIn()) {
         $("#showbox").animate({

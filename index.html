@@ -225,24 +225,26 @@
 	                <i class="large material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Edit your Toad Lists">mode_edit</i>
 	            </a>
 	            <ul>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Delete Current Toad List">delete</i></a></li>
+	                <li><a id = "deleteLstBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Delete Current Toad List">delete</i></a></li>
 	                <li><a id = "quoteBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Rename Current Toad List">format_quote</i></a></li>
 	                <li><a id = "publishBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Create New Toad List">publish</i></a></li>
 	            </ul>
 	        </div>
 
-	        <div id = "noListMessage" class="row" style = "display: none; opacity: 1.0">
+	        <div id = "noListMessage" class="row" style = "display: block; opacity: 1.0">
 	            <div class="col s12 m6 offset-m3">
 	                <div class="card hoverable z-depth-3">
 	                    <div class="card-content">
-	                        <p>You have no lists at the moment.<br/>Please add a list by clicking the <i class="large material-icons">mode_edit</i> button in the bottom right corner.</p>
+	                        <p>You have no lists at the moment.<br/>
+                        	<br/>
+                        	Please add a list by clicking the <i class="material-icons">mode_edit</i> button in the bottom right corner.</p>
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
 
 	        <!--<div id = "listViewCard" class="row" style = "display: none; opacity: 0.0">-->
-	        <div id = "listViewCard" class="row">
+	        <div id = "listViewCard" class="row" style = "display: none; opacity: 0.0">
 	            <div class="col s12 m6 offset-m3">
 	                <div id = "mainListView" class="card hoverable z-depth-3">
 	                    <div class="card-image">

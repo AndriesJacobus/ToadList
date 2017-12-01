@@ -20,9 +20,24 @@ function changeCurrentListTo(id) {
 function addToadList (id, name) {
 	// Add to list
 	if (toadLists.length == 0) {
-		// First list: set list banner name
+
+		// Set list banner name
 		currentListOpen = id;
 		$("#listBannerName").html(name);
+
+		// Remove no list warning message
+        $("#noListMessage").animate({
+            opacity: 0.0,
+            }, 1000
+        );
+        $("#noListMessage").css("display", "none");
+
+        // Show new message
+        $("#listViewCard").css("display", "block");
+        $("#listViewCard").animate({
+            opacity: 1.0,
+            }, 1000
+        );
 	}
 
 	toadLists.push(new ToadList(id, name));
@@ -114,7 +129,7 @@ function addNewToadListToDatabase (_name) {
 		owner: "" + uid + ""
 	});
 
-	Materialize.toast("List Created: " + _name, 2000, 'rounded');
+	Materialize.toast("List Created: " + _name, 3000, 'rounded');
 }
 
 function renameToadListInDatabase (_name) {
@@ -123,10 +138,12 @@ function renameToadListInDatabase (_name) {
 	  "name": _name
 	});
 
-	Materialize.toast("List Renamed: " + _name, 2000, 'rounded');
+	Materialize.toast("List Renamed: " + _name, 3000, 'rounded');
 }
 
 function deleteList (id) {
+
+	Materialize.toast("Sorry, you have to be a premium user to delete lists ;)", 3000, 'rounded');
 	// Delete list from database
 }
 
@@ -195,6 +212,7 @@ function addItem (id, list, contentId) {
 				var checked = itemRefData.val().checked;
 				var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', true)" + '"');
 				var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', false)" + '"');
+				var delString = String('"' + "event.preventDefault(); " + "deleteItemFromDatabase ('" + String(id) + "')" + '"');
 
 				var add = 	"<div id = '" + id + "'>"
 			    add +=			"<br/>"
@@ -212,6 +230,7 @@ function addItem (id, list, contentId) {
 			    }
 
 				add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + snapshot.val() + "</label>"
+				add +=					"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " + style = 'margin-left: 25px;'><i class='tiny material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
 			    add +=				"</a>"
 				add +=			"</p>"
 			    add +=		"</div>"
@@ -370,6 +389,7 @@ function addContentToView(itemId, contentId, message) {
 		var checked = itemRefData.val().checked;
 		var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', true)" + '"');
 		var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', false)" + '"');
+				var delString = String('"' + "event.preventDefault(); " + "deleteItemFromDatabase ('" + String(itemId) + "')" + '"');
 
 	    var add = 	"<div id = '" + itemId + "'>"
 	    add +=			"<br/>"
@@ -388,6 +408,7 @@ function addContentToView(itemId, contentId, message) {
 
 		add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + message + "</label>"
 	    add +=				"</a>"
+		add +=				"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " + style = 'margin-left: 25px;'><i class='tiny material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
 		add +=			"</p>"
 	    add +=		"</div>"
 
@@ -541,7 +562,61 @@ function addItemToDatabase(contentMessage) {
 		list: "" + currentListOpen + ""
 	});
 
-	Materialize.toast("Item created: " + contentMessage, 2000, 'rounded');
+	Materialize.toast("Item created: " + contentMessage, 3000, 'rounded');
+}
+
+function deleteItemFromDatabase (itemId) {
+	//alert("Here to delete item: " + itemId);
+	//Get content id
+	itemRef.child(itemId).once("value", function(itemRefData){
+
+		var itemContentID = itemRefData.val().contentId;
+
+		// Remove item
+		itemRef.child(itemId).remove();
+		
+		// Remove itemContent
+		contentRef.child(itemContentID).remove();
+
+		// Show relevant message
+    	var currListHasItems = false;
+
+	    // Remove old content
+		for (var i = 0; i < items.length; i++) {
+			var tempItem = items[i];
+
+			if (tempItem.list != currentListOpen) {
+				//alert("Calling remove for " + tempItem.id);
+				removeItemFromView(tempItem.id);
+			}
+			else if (!currListHasItems) {
+				currListHasItems = true;
+			}
+		}
+
+		if (!currListHasItems) {
+			if ($("#normalItemGreeting").css("display") == "block") {
+
+		        $("#normalItemGreeting").animate({
+		            opacity: 0.0,
+		            }, 10
+		        );
+		        $("#normalItemGreeting").css("display", "none");
+
+		        // Show new message
+		        $("#noItemsYet").css("display", "block");
+		        $("#noItemsYet").animate({
+		            opacity: 1.0,
+		            }, 10
+		        );
+		    }
+		}
+
+		Materialize.toast("Item Deleted", 3000, 'rounded');
+	    
+	}, function (errorObject) {
+    	console.log("the read failed: " + errorObject.code); 
+	});
 }
 
 /*
