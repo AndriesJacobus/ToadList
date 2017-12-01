@@ -9,6 +9,7 @@
 */
 var toadLists = [];
 var currentListOpen;
+var currItemContentIdToDBEdit;
 
 function changeCurrentListTo(id) {
 	currentListOpen = id;
@@ -213,6 +214,7 @@ function addItem (id, list, contentId) {
 				var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', true)" + '"');
 				var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(id) + "', false)" + '"');
 				var delString = String('"' + "event.preventDefault(); " + "deleteItemFromDatabase ('" + String(id) + "')" + '"');
+				var editString = String('"' + "event.preventDefault(); " + "editItemUsingDatabase ('" + String(contentId) + "')" + '"');
 
 				var add = 	"<div id = '" + id + "'>"
 			    add +=			"<br/>"
@@ -230,7 +232,8 @@ function addItem (id, list, contentId) {
 			    }
 
 				add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + snapshot.val() + "</label>"
-				add +=					"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " + style = 'margin-left: 25px;'><i class='tiny material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
+				add +=					"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " style = 'margin-left: 25px;'><i class='material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
+				add +=					"<a id = '" + contentId + "editBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1' onclick = " + editString + " style = 'margin-left: 25px;'><i class='material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Rename Toad List Item'>format_quote</i></a>"
 			    add +=				"</a>"
 				add +=			"</p>"
 			    add +=		"</div>"
@@ -389,7 +392,8 @@ function addContentToView(itemId, contentId, message) {
 		var checked = itemRefData.val().checked;
 		var clickTrue = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', true)" + '"');
 		var clickFalse = String('"' + "event.preventDefault(); " + "flipCheckedFor ('" + String(itemId) + "', false)" + '"');
-				var delString = String('"' + "event.preventDefault(); " + "deleteItemFromDatabase ('" + String(itemId) + "')" + '"');
+		var delString = String('"' + "event.preventDefault(); " + "deleteItemFromDatabase ('" + String(itemId) + "')" + '"');
+		var editString = String('"' + "event.preventDefault(); " + "editItemUsingDatabase ('" + String(contentId) + "')" + '"');
 
 	    var add = 	"<div id = '" + itemId + "'>"
 	    add +=			"<br/>"
@@ -408,7 +412,8 @@ function addContentToView(itemId, contentId, message) {
 
 		add +=					"<label id='" + contentId + "lbl' for='" + contentId + "in'>" + message + "</label>"
 	    add +=				"</a>"
-		add +=				"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " + style = 'margin-left: 25px;'><i class='tiny material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
+		add +=				"<a id = '" + contentId + "delBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 red' onclick = " + delString + " style = 'margin-left: 25px;'><i class='material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Delete Toad List Item'>delete</i></a>"
+		add +=				"<a id = '" + contentId + "editBtn' class='btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1' onclick = " + editString + " style = 'margin-left: 25px;'><i class='material-icons tooltipped' data-position='top' data-delay='50' data-tooltip='Rename Toad List Item'>format_quote</i></a>"
 		add +=			"</p>"
 	    add +=		"</div>"
 
@@ -563,6 +568,31 @@ function addItemToDatabase(contentMessage) {
 	});
 
 	Materialize.toast("Item created: " + contentMessage, 3000, 'rounded');
+}
+
+function editItemUsingDatabase (itemId) {
+	currItemContentIdToDBEdit = itemId;
+    $('#editItemModal').modal('open');
+}
+
+function renameItemBackend (message) {
+	// Rename item content
+	//alert("Here: " + message + ", " + currItemContentIdToDBEdit);
+
+	var updates = {};
+	updates[currItemContentIdToDBEdit] = message;
+
+	contentRef.update(updates);
+
+	// var itemContentToUpdate = contentRef;
+	// itemContentToUpdate.update({
+	// 	currItemContentIdToDBEdit: message
+	// });
+
+	Materialize.toast("Item Updated", 3000, 'rounded');
+
+	// Reset
+	currItemContentIdToDBEdit = null;
 }
 
 function deleteItemFromDatabase (itemId) {

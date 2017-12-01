@@ -101,6 +101,44 @@ $( document ).ready(function() {
         $('#renameToadListModal').modal('open');
     });
 
+    $('#editItemModal').modal({
+            dismissible: false, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0.5, // Opacity of modal background
+            inDuration: 100, // Transition in duration
+            outDuration: 250, // Transition out duration
+            startingTop: '4%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+
+            ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+                console.log(modal, trigger);
+            },
+            complete: function() {
+            } // Callback for Modal close
+        }
+    );
+
+    // Rename item
+    $('#renameItemButton').click(function () {
+        // Check to see if the item box has content
+        var content = $('#itemRenameMessage').val();
+
+        //alert("Content: " + content);
+
+        if (content == "") {
+            alert("Sorry, the message body cannot be empty.");
+        }
+        else {
+            // Update backend
+            renameItemBackend(content);
+
+            // Reset modal body
+            $('#itemRenameMessage').val("");
+
+            // Close modal
+            $('#editItemModal').modal('close');
+        }
+    });
+
     // Sign Up button link listener
     $('#addItemFloatButton').click(function () {
         // Show Add Item Modal
@@ -198,7 +236,7 @@ $( document ).ready(function() {
     // Sign Up button click listener
     $('#signUpButton').click(function () {
         // Handle sign in
-        alert("Name: " + $('#name').val());
+        //alert("Name: " + $('#name').val());
         cusCreateUser($('#email2').val(), $('#password2').val(), $('#name').val());        //call authHandler's function
     });
 
@@ -284,5 +322,10 @@ $( document ).ready(function() {
             $(this).addClass("darken-2");
         }
 
+    });
+
+    // Log out
+    $('#logoutBtn').click(function () {
+        location.reload();
     });
 });

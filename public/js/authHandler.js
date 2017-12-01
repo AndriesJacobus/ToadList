@@ -41,7 +41,7 @@ function cusSignIn (email, password) {
 		// Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
-		//alert("Error " + errorCode + ": " + errorMessage);
+		alert("Error: " + errorMessage);
 	});
 }
 
@@ -57,7 +57,7 @@ function cusCreateUser (email, password, _name) {
 		// Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
-		//alert("Error " + errorCode + ": " + errorMessage);
+		alert("Error: " + errorMessage);
 	});
 }
 
