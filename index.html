@@ -136,7 +136,7 @@
 	        </div>
 	    </div>
 
-	    <!-- Add Item Modal Structure -->
+	    <!-- Create List Modal Structure -->
 	    <div id="createToadListModal" class="modal">
 	        <div class="modal-content">
 	            <h4>Create ToadList</h4>
@@ -156,6 +156,29 @@
 	        <div class="modal-footer">
 	            <a id = "createNewToadListButton" class="modal-action waves-effect waves-teal btn-flat">Create ToadList</a>
 	            <a id = "canclTL" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+	        </div>
+	    </div>
+
+	    <!-- Rename List Modal Structure -->
+	    <div id="renameToadListModal" class="modal">
+	        <div class="modal-content">
+	            <h4>Rename ToadList</h4>
+	            <hr/>
+	            <br/>
+	            <div class="row">
+	                <form class="col s12">
+	                    <div class="row">
+	                        <div class="input-field col s12">
+	                            <input id="toadListReName" type="text" class="validate">
+	                            <label for="toadListReName">New ToadList Name</label>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	        <div class="modal-footer">
+	            <a id = "renameToadListButton" class="modal-action waves-effect waves-teal btn-flat">Rename ToadList</a>
+	            <a id = "canclRTL" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
 	        </div>
 	    </div>
 
@@ -203,7 +226,7 @@
 	            </a>
 	            <ul>
 	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 red"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Delete Current Toad List">delete</i></a></li>
-	                <li><a class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Rename Current Toad List">format_quote</i></a></li>
+	                <li><a id = "quoteBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 yellow darken-1"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Rename Current Toad List">format_quote</i></a></li>
 	                <li><a id = "publishBtn" class="btn-floating waves-effect waves-light hoverable z-depth-2 green"><i class="material-icons tooltipped" data-position="top" data-delay="50" data-tooltip="Create New Toad List">publish</i></a></li>
 	            </ul>
 	        </div>

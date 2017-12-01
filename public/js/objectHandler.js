@@ -117,6 +117,15 @@ function addNewToadListToDatabase (_name) {
 	Materialize.toast("List Created: " + _name, 2000, 'rounded');
 }
 
+function renameToadListInDatabase (_name) {
+	var listToUpdate = listsRef.child(currentListOpen);
+	listToUpdate.update({
+	  "name": _name
+	});
+
+	Materialize.toast("List Renamed: " + _name, 2000, 'rounded');
+}
+
 function deleteList (id) {
 	// Delete list from database
 }
@@ -531,7 +540,8 @@ function addItemToDatabase(contentMessage) {
 		contentId: "" + currContentId + "",
 		list: "" + currentListOpen + ""
 	});
-	//newItemRef.set(contentMessage);
+
+	Materialize.toast("Item created: " + contentMessage, 2000, 'rounded');
 }
 
 /*
